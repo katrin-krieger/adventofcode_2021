@@ -1,0 +1,20 @@
+{
+  "name": "adventofcode_2021",
+  "version": "1.0.0",
+  "description": "",
+  "main": "adventofcode_1.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest-cli": "^27.4.3"
+  },
+  "devDependencies": {
+    "jest": "^27.4.3"
+  },
+  "jest": {
+    "verbose": true
+  }
+}
