@@ -1,7 +1,5 @@
 const { parseInput } = require("./utils");
 
-const numbers = parseInput("data/day_1.txt", (el) => Number(el));
-
 const addIfIncreased = (acc, curr, idx, arr) => {
     if (curr > arr[idx - 1]) acc++;
     return acc;
@@ -16,9 +14,6 @@ const threeMeasurements = (acc, curr, idx, arr) => {
 };
 
 const sumArray = (arr) => arr.reduce((acc, curr) => acc + curr, 0);
-
-console.log(numbers.reduce(addIfIncreased, 0));
-console.log(numbers.reduce(threeMeasurements, 0));
 
 module.exports.addIfIncreased = addIfIncreased;
 module.exports.threeMeasurements = threeMeasurements;

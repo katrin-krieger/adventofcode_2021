@@ -1,8 +1,4 @@
-const { parseInput, binaryStr2Decimal } = require("./utils");
-
-const data = parseInput("./data/day_3.txt", (el) => el.split(""));
-
-const getLifeSupportRating = (data, comp) => {
+const powerConsumption = (data, comp) => {
     var result = "";
     const cols = data[0].length; //assuming each row has the same length ...
     for (var i = 0; i < cols; i++) {
@@ -19,14 +15,14 @@ const getLifeSupportRating = (data, comp) => {
 };
 
 const getEpsilonRate = (data) => {
-    return getLifeSupportRating(data, (a, b) => a < b);
+    return powerConsumption(data, (a, b) => a < b);
 };
 
 const getGammaRate = (data) => {
-    return getLifeSupportRating(data, (a, b) => a > b);
+    return powerConsumption(data, (a, b) => a > b);
 };
 
-const getGasRates = (data, index, comp) => {
+const lifeSupportRating = (data, index, comp) => {
     if (data.length == 1) return data[0].join("");
     var zero = [];
     var one = [];
@@ -37,15 +33,15 @@ const getGasRates = (data, index, comp) => {
             one.push(data[i]);
         }
     }
-    return getGasRates(comp(zero, one), ++index, comp);
+    return lifeSupportRating(comp(zero, one), ++index, comp);
 };
 
 const getOxygenRate = (data) => {
-    return getGasRates(data, 0, (zero, one) => mostCommon(zero, one));
+    return lifeSupportRating(data, 0, (zero, one) => mostCommon(zero, one));
 };
 
 const getCO2Rate = (data) => {
-    return getGasRates(data, 0, (zero, one) => leastCommon(zero, one));
+    return lifeSupportRating(data, 0, (zero, one) => leastCommon(zero, one));
 };
 
 const mostCommon = (zero, one) => {
@@ -57,15 +53,6 @@ const leastCommon = (zero, one) => {
     if (one.length < zero.length) return one;
     else return zero;
 };
-
-var gamma = binaryStr2Decimal(getGammaRate(data));
-var epsilon = binaryStr2Decimal(getEpsilonRate(data));
-
-var oxy = binaryStr2Decimal(getOxygenRate(data, 0));
-var co2 = binaryStr2Decimal(getCO2Rate(data, 0));
-
-console.log(gamma * epsilon);
-console.log(oxy * co2);
 
 module.exports.getGammaRate = getGammaRate;
 module.exports.getEpsilonRate = getEpsilonRate;
