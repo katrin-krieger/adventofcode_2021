@@ -1,15 +1,11 @@
-const fs = require("fs");
-const file = fs.readFileSync("./data/day_2.txt", "utf8");
+const { parseInput } = require("./utils");
 
-const commands = file
-    .toString()
-    .split("\n")
-    .map((i) => {
-        var command = i.split(" ");
-        return { command: command[0], distance: Number(command[1]) };
-    });
+const commands = parseInput("./data/day_2.txt", (i) => {
+    var command = i.split(" ");
+    return { command: command[0], distance: Number(command[1]) };
+});
 
-const computePosition = (acc, curr) => {
+const computePositionWithAim = (acc, curr) => {
     switch (curr.command) {
         case "forward":
             acc.position += curr.distance;
@@ -24,10 +20,31 @@ const computePosition = (acc, curr) => {
     }
     return acc;
 };
-var position = 0;
-var depth = 0;
-var aim = 0;
+const computePosition = (acc, curr) => {
+    switch (curr.command) {
+        case "forward":
+            acc.position += curr.distance;
+            break;
+        case "up":
+            acc.depth -= curr.distance;
+            break;
+        case "down":
+            acc.depth += curr.distance;
+            break;
+    }
+    return acc;
+};
+var p1 = commands.reduce(computePosition, {
+    position: 0,
+    depth: 0,
+    aim: 0,
+});
 
-var p = commands.reduce(computePosition, { position, depth, aim });
+var p2 = commands.reduce(computePositionWithAim, {
+    position: 0,
+    depth: 0,
+    aim: 0,
+});
 
-console.log(p.depth * p.position);
+console.log(p1.depth * p1.position);
+console.log(p2.depth * p2.position);

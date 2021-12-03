@@ -1,10 +1,6 @@
-const fs = require("fs");
-const file = fs.readFileSync("./data/day_1.txt", "utf8");
+const { parseInput } = require("./utils");
 
-const numbers = file
-    .toString()
-    .split("\n")
-    .map((i) => Number(i));
+const numbers = parseInput("data/day_1.txt", (el) => Number(el));
 
 const addIfIncreased = (acc, curr, idx, arr) => {
     if (curr > arr[idx - 1]) acc++;
