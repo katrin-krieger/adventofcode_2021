@@ -1,5 +1,10 @@
 const { parseInput } = require("../utils");
-const { getGammaRate, getEpsilonRate } = require("../adventofcode_3");
+const {
+    getGammaRate,
+    getEpsilonRate,
+    getOxygenRate,
+    getCO2Rate,
+} = require("../adventofcode_3");
 
 describe("Compute gamma and epsilon rate", () => {
     const data = parseInput("./test/data/testdata_day3.txt", (el) =>
@@ -14,5 +19,11 @@ describe("Compute gamma and epsilon rate", () => {
         expect(getEpsilonRate(data)).toBe("01001");
     });
 
-    test("power consumption", () => {});
+    test("oxygen rate", () => {
+        expect(getOxygenRate(data)).toBe("10111");
+    });
+
+    test("CO2 scrubber rate", () => {
+        expect(getCO2Rate(data)).toBe("01010");
+    });
 });

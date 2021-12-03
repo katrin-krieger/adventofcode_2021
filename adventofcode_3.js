@@ -2,7 +2,7 @@ const { parseInput, binaryStr2Decimal } = require("./utils");
 
 const data = parseInput("./data/day_3.txt", (el) => el.split(""));
 
-const getGammaRate = (data) => {
+const getLifeSupportRating = (data, comp) => {
     var result = "";
     const cols = data[0].length; //assuming each row has the same length ...
     for (var i = 0; i < cols; i++) {
@@ -12,32 +12,62 @@ const getGammaRate = (data) => {
             if (data[j][i] == 0) zeros++;
             else ones++;
         }
-        if (zeros > ones) result += "0";
+        if (comp(zeros, ones)) result += "0";
         else result += "1";
     }
     return result;
 };
 
 const getEpsilonRate = (data) => {
-    var result = "";
-    const cols = data[0].length; //assuming each row has the same length ...
-    for (var i = 0; i < cols; i++) {
-        var zeros = 0;
-        var ones = 0;
-        for (var j = 0; j < data.length; j++) {
-            if (data[j][i] == 0) zeros++;
-            else ones++;
+    return getLifeSupportRating(data, (a, b) => a < b);
+};
+
+const getGammaRate = (data) => {
+    return getLifeSupportRating(data, (a, b) => a > b);
+};
+
+const getGasRates = (data, index, comp) => {
+    if (data.length == 1) return data[0].join("");
+    var zero = [];
+    var one = [];
+    for (var i = 0; i < data.length; i++) {
+        if (data[i][index] == "0") {
+            zero.push(data[i]);
+        } else {
+            one.push(data[i]);
         }
-        if (zeros < ones) result += "0";
-        else result += "1";
     }
-    return result;
+    return getGasRates(comp(zero, one), ++index, comp);
+};
+
+const getOxygenRate = (data) => {
+    return getGasRates(data, 0, (zero, one) => mostCommon(zero, one));
+};
+
+const getCO2Rate = (data) => {
+    return getGasRates(data, 0, (zero, one) => leastCommon(zero, one));
+};
+
+const mostCommon = (zero, one) => {
+    if (zero.length > one.length) return zero;
+    else return one;
+};
+
+const leastCommon = (zero, one) => {
+    if (one.length < zero.length) return one;
+    else return zero;
 };
 
 var gamma = binaryStr2Decimal(getGammaRate(data));
 var epsilon = binaryStr2Decimal(getEpsilonRate(data));
 
+var oxy = binaryStr2Decimal(getOxygenRate(data, 0));
+var co2 = binaryStr2Decimal(getCO2Rate(data, 0));
+
 console.log(gamma * epsilon);
+console.log(oxy * co2);
 
 module.exports.getGammaRate = getGammaRate;
 module.exports.getEpsilonRate = getEpsilonRate;
+module.exports.getOxygenRate = getOxygenRate;
+module.exports.getCO2Rate = getCO2Rate;
