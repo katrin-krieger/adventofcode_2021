@@ -1,12 +1,12 @@
-const { parseInput, binaryStr2Decimal } = require("../utils");
+const { parseInput, parseInputAdv, binaryStr2Decimal } = require("../utils");
 
 describe("utility testing", () => {
     test("correct parsed input", () => {
         const filename = "./test/data/testdata1.txt";
-        const split = "\n";
+        const delim = "\n";
         const parsefn = (el) => Number(el);
 
-        const parsedInput = parseInput(filename, parsefn);
+        const parsedInput = parseInput(filename, delim, parsefn);
         expect(parsedInput.length).toBe(10);
         expect(parsedInput[0]).toBe(199);
     });

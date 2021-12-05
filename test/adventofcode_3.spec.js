@@ -7,7 +7,7 @@ const {
 } = require("../adventofcode_3");
 
 describe("Compute gamma and epsilon rate", () => {
-    const data = parseInput("./test/data/testdata_day3.txt", (el) =>
+    const data = parseInput("./test/data/testdata_day3.txt", "\n", (el) =>
         el.split("")
     );
 

@@ -1,12 +1,12 @@
 const fs = require("fs");
 const path = require("path");
 
-const parseInput = (filename, parseFn) => {
+const parseInput = (filename, delim, parseFn) => {
     const file = fs.readFileSync(
         path.resolve(__dirname + "/" + filename),
         "utf8"
     );
-    const lines = file.toString().split("\n");
+    const lines = file.toString().split(delim);
     return lines.map(parseFn);
 };
 
