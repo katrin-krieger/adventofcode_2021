@@ -9,7 +9,14 @@ const getMinimumFuelHorizontalPosition = (data) => {
 }
 
 const getMinimumFuelHorizontalPosition2 = (data) => {
-    return 168;
+    let result = Array(data.length);
+    result = data.map(el => {
+        return data.reduce((acc, curr) => {
+            let step = Math.abs(el - curr);
+            return acc + (step * (step + 1) / 2)
+        }, 0)
+    });
+    return (result.reduce((acc, curr) => Math.min(acc, curr), result[0]));
 }
 
 module.exports.getMinimumFuelHorizontalPosition = getMinimumFuelHorizontalPosition;

@@ -19,7 +19,7 @@ const {
     insertAllLineSegments,
 } = require("./adventofcode_5");
 const { lanternfish, lanternfish2 } = require("./adventofcode_6");
-const { getMinimumFuelHorizontalPosition } = require("./adventofcode_7");
+const { getMinimumFuelHorizontalPosition, getMinimumFuelHorizontalPosition2 } = require("./adventofcode_7");
 
 console.log(`
 ##############################################################
@@ -106,3 +106,4 @@ console.log(
 console.log("\n************* DAY 7: The Treachery of Whales **************\n");
 let data_day7 = parseInput("./data/day_7.txt", ",", (el) => Number(el));
 console.log("Minimum fuel: ", getMinimumFuelHorizontalPosition(data_day7));
+console.log("Minimum fuel 2: ", getMinimumFuelHorizontalPosition2(data_day7));
