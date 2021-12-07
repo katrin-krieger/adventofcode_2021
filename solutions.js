@@ -19,6 +19,7 @@ const {
     insertAllLineSegments,
 } = require("./adventofcode_5");
 const { lanternfish, lanternfish2 } = require("./adventofcode_6");
+const { getMinimumFuelHorizontalPosition } = require("./adventofcode_7");
 
 console.log(`
 ##############################################################
@@ -91,13 +92,17 @@ let fullVentMap = insertAllLineSegments(data_day5, map2);
 console.log("Danger zones: ", getDangerZones(fullVentMap));
 
 console.log("\n************* DAY 6: Lanternfish **************\n");
-let data_day6 = parseInput("./data/day6.txt", ",", (el) => Number(el));
+let data_day6 = parseInput("./data/day_6.txt", ",", (el) => Number(el));
 
 console.log(
     "Number of lanternfish after 80 days: " + lanternfish(data_day6, 80)
 );
 //reset
-data_day6 = parseInput("./data/day6.txt", ",", (el) => Number(el));
+data_day6 = parseInput("./data/day_6.txt", ",", (el) => Number(el));
 console.log(
     "Number of lanternfish after 256 days: " + lanternfish2(data_day6, 256)
 );
+
+console.log("\n************* DAY 7: The Treachery of Whales **************\n");
+let data_day7 = parseInput("./data/day_7.txt", ",", (el) => Number(el));
+console.log("Minimum fuel: ", getMinimumFuelHorizontalPosition(data_day7));
