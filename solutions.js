@@ -90,13 +90,14 @@ let map2 = initMap(1000);
 let fullVentMap = insertAllLineSegments(data_day5, map2);
 console.log("Danger zones: ", getDangerZones(fullVentMap));
 
-console.log("\n************* DAY 7: Lanternfish **************\n");
-const data_day7 = parseInput("./data/day7.txt", ",", (el) => Number(el));
-const data_day7_2 = parseInput("./data/day7.txt", ",", (el) => Number(el));
+console.log("\n************* DAY 6: Lanternfish **************\n");
+let data_day6 = parseInput("./data/day6.txt", ",", (el) => Number(el));
 
 console.log(
-    "Number of lanternfish after 80 days: " + lanternfish(data_day7, 80)
+    "Number of lanternfish after 80 days: " + lanternfish(data_day6, 80)
 );
+//reset
+data_day6 = parseInput("./data/day6.txt", ",", (el) => Number(el));
 console.log(
-    "Number of lanternfish after 256 days: " + lanternfish2(data_day7_2, 256)
+    "Number of lanternfish after 256 days: " + lanternfish2(data_day6, 256)
 );
