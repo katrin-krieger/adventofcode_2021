@@ -20,6 +20,7 @@ const {
 } = require("./adventofcode_5");
 const { lanternfish, lanternfish2 } = require("./adventofcode_6");
 const { getMinimumFuelHorizontalPosition, getMinimumFuelHorizontalPosition2 } = require("./adventofcode_7");
+const { getScore, getScoreForClosingChars } = require("./adventofcode_10");
 
 console.log(`
 ##############################################################
@@ -107,3 +108,8 @@ console.log("\n************* DAY 7: The Treachery of Whales **************\n");
 let data_day7 = parseInput("./data/day_7.txt", ",", (el) => Number(el));
 console.log("Minimum fuel: ", getMinimumFuelHorizontalPosition(data_day7));
 console.log("Minimum fuel 2: ", getMinimumFuelHorizontalPosition2(data_day7));
+
+console.log("\n************* DAY 10: Syntax Scoring **************\n");
+let data_day10 = parseInput("./data/day_10.txt", "\n", el => el);
+console.log("Syntax error score: ", getScore(data_day10));
+console.log("Score for closing brackets: " + getScoreForClosingChars(data_day10))
