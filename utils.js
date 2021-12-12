@@ -14,5 +14,8 @@ const binaryStr2Decimal = (binary) => {
     return parseInt(binary, 2);
 };
 
+const isUpperCase = (string) => /^[A-Z]*$/.test(string)
+
 module.exports.parseInput = parseInput;
 module.exports.binaryStr2Decimal = binaryStr2Decimal;
+module.exports.isUpperCase = isUpperCase;

@@ -21,6 +21,8 @@ const {
 const { lanternfish, lanternfish2 } = require("./adventofcode_6");
 const { getMinimumFuelHorizontalPosition, getMinimumFuelHorizontalPosition2 } = require("./adventofcode_7");
 const { getScore, getScoreForClosingChars } = require("./adventofcode_10");
+const { getLowPoints, sumOfRisksOfLowPoints } = require("./adventofcode_9");
+const { findAllEasyDigits } = require("./adventofcode_8");
 
 console.log(`
 ##############################################################
@@ -109,7 +111,18 @@ let data_day7 = parseInput("./data/day_7.txt", ",", (el) => Number(el));
 console.log("Minimum fuel: ", getMinimumFuelHorizontalPosition(data_day7));
 console.log("Minimum fuel 2: ", getMinimumFuelHorizontalPosition2(data_day7));
 
+console.log("\n************* DAY 8: Seven Segment Search **************\n");
+
+let data_day8 = parseInput("./data/day_8.txt", "\n", e => e.trim().split("|"));
+console.log("Easy segments: ", findAllEasyDigits(data_day8));
+
+
+console.log("\n************* DAY 9: Smoke Basin **************\n");
+let data_day9 = parseInput("./data/day_9.txt", "\n", el => el.split("").map(Number));
+console.log("Low points score: ", sumOfRisksOfLowPoints(getLowPoints(data_day9)));
+
 console.log("\n************* DAY 10: Syntax Scoring **************\n");
 let data_day10 = parseInput("./data/day_10.txt", "\n", el => el);
 console.log("Syntax error score: ", getScore(data_day10));
-console.log("Score for closing brackets: " + getScoreForClosingChars(data_day10))
+console.log("Score for closing brackets: " + getScoreForClosingChars(data_day10));
+

@@ -1,4 +1,4 @@
-const { parseInput, parseInputAdv, binaryStr2Decimal } = require("../utils");
+const { parseInput, binaryStr2Decimal, isUpperCase } = require("../utils");
 
 describe("utility testing", () => {
     test("correct parsed input", () => {
@@ -15,4 +15,10 @@ describe("utility testing", () => {
         expect(binaryStr2Decimal("10110")).toBe(22);
         expect(binaryStr2Decimal("01001")).toBe(9);
     });
+
+    test("is uppercase", () => {
+        expect(isUpperCase("A")).toBeTruthy();
+        expect(isUpperCase("a")).toBeFalsy();
+        expect(isUpperCase("2")).toBeFalsy();
+    })
 });
