@@ -10,7 +10,8 @@ const {
 } = require("./adventofcode_3");
 const {
     playBingo,
-    playBingoWithLastWinningBoard,
+    getLastWinningScore,
+    getFirstWinningScore,
 } = require("./adventofcode_4");
 const {
     initMap,
@@ -73,12 +74,13 @@ console.log("Power consumption", gamma * epsilon);
 console.log("Life support", oxy * co2);
 
 console.log("\n************* DAY 4: Giant Squid **************\n");
-const data_day4 = parseInput("./data/day_4.txt", "\n\n", (el) => el);
+let data_day4 = parseInput("./data/day_4.txt", "\n\n", (el) => el);
 
-console.log("Winning bingo score: ", playBingo(data_day4));
+console.log("Winning bingo score: ", getFirstWinningScore(data_day4));
+data_day4 = parseInput("./data/day_4.txt", "\n\n", (el) => el);
 console.log(
     "Last winning board score: ",
-    playBingoWithLastWinningBoard(data_day4)
+    getLastWinningScore(data_day4)
 );
 
 console.log("\n************* DAY 5: Hydrothermal Venture **************\n");

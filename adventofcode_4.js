@@ -1,32 +1,47 @@
-const getChosenNumbers = (data) => {
-    return data[0].split(",").map(Number);
-};
+let completeBoards = [];
+let boards;
+let numbers;
 
-const getBingoBoards = (data) => {
-    var re = /\s+/;
-    return data.slice(1).map((el) =>
-        el.split("\n").map((e) =>
-            e
-                .trim()
-                .split(re)
-                .map((e) => {
-                    return { number: Number(e), drawn: false };
-                })
-        )
-    );
-};
-
-const markNumbersAsDrawn = (boards, number) => {
-    return boards.map((board) => {
-        board.map((rows) => {
-            rows.map((elem) => {
-                if (number === elem.number) elem.drawn = true;
-            });
-        });
+const playBingo = (data) => {
+    numbers = data[0].split(",").map(Number);
+    data.shift()
+    boards = data.map(board => {
+        return board.split("\n").map(row => {
+            return row.trim().split(/\s+/).map(elem => {
+                return { number: Number(elem), drawn: false };
+            })
+        })
     });
-};
+    for (let i = 0; i < numbers.length; i++) {
+        markDrawnNumbers(boards, numbers[i]);
+        if (completeBoards.length === boards.length)
+            break;
+    }
+}
+const getFirstWinningScore = (data) => {
+    playBingo(data);
+    return completeBoards[0].score;
+}
 
-const rowOrColumnComplete = (boards) => {
+const getLastWinningScore = (data) => {
+    playBingo(data);
+    return completeBoards[boards.length - 1].score;
+}
+const markDrawnNumbers = (boards, number) => {
+    boards.forEach((board, index) => {
+        board.forEach(row => {
+            row.forEach(elem => {
+                if (elem.number === number)
+                    elem.drawn = true;
+            })
+        });
+        //check if board has complete row or column
+        if (isStillIncomplete(index) && hasCompleteRowOrColumn(board))
+            completeBoards.push(getScoreAndComplete(board, index, number));
+    });
+}
+
+const hasCompleteRowOrColumn = (board) => {
     const arrayColumn = (arr, n) =>
         arr.map((x) => {
             return { number: x[n].number, drawn: x[n].drawn };
@@ -35,24 +50,22 @@ const rowOrColumnComplete = (boards) => {
         return acc && curr.drawn;
     };
 
-    for (var i = 0; i < boards.length; i++) {
-        for (var j = 0; j < boards[0].length; j++) {
-            if (boards[i][j].reduce(getAllDrawn, true)) {
-                return { complete: true, board: i };
-            }
+    for (var j = 0; j < board.length; j++) {
+        if (board[j].reduce(getAllDrawn, true)) {
+            return true;
+        }
 
-            var col = arrayColumn(boards[i], j);
+        var col = arrayColumn(board, j);
 
-            if (col.reduce(getAllDrawn, true)) {
-                return { complete: true, board: i };
-            }
+        if (col.reduce(getAllDrawn, true)) {
+            return true;
         }
     }
-    return { complete: false, board: i };
+    return false;
 };
 
-const getWinningScore = (board, number) => {
-    return (
+const getScoreAndComplete = (board, index, number) => {
+    const score =
         board.reduce((acc, curr) => {
             const rowSum = curr.reduce((sum, el) => {
                 if (!el.drawn) return sum + el.number;
@@ -60,75 +73,19 @@ const getWinningScore = (board, number) => {
             }, 0);
             return rowSum + acc;
         }, 0) * number
-    );
-};
+        ;
+    return { boardNumber: index, score: score };
+}
 
-const playBingo = (data) => {
-    const numbers = getChosenNumbers(data);
-    const boards = getBingoBoards(data);
-    for (i = 0; i < numbers.length; i++) {
-        // mark the current number on your bingo boards as drawn
-        markNumbersAsDrawn(boards, numbers[i]);
-        // check for complete row or column
-        var c = rowOrColumnComplete(boards);
-        // if we have a complete row/column, calculate the score
-        if (c.complete) {
-            return getWinningScore(boards[c.board], numbers[i]);
-        }
-    }
-};
+const isStillIncomplete = (boardno) => {
+    if (completeBoards.length > 0)
+        return (!completeBoards.some(cboard =>
+            cboard.boardNumber === boardno
+        ))
+    else
+        return true;
+}
 
-const updateCompletedStatus = (boards) => {
-    var result = [];
-    const arrayColumn = (arr, n) =>
-        arr.map((x) => {
-            return { number: x[n].number, drawn: x[n].drawn };
-        });
-    const getAllDrawn = (acc, curr) => {
-        return acc && curr.drawn;
-    };
-
-    for (var i = 0; i < boards.length; i++) {
-        for (var j = 0; j < boards[0].length; j++) {
-            if (boards[i][j].reduce(getAllDrawn, true)) {
-                result.push({ complete: true, board: i });
-            }
-
-            var col = arrayColumn(boards[i], j);
-
-            if (col.reduce(getAllDrawn, true)) {
-                result.push({ complete: true, board: i });
-            }
-        }
-    }
-    return result;
-};
-
-const playBingoWithLastWinningBoard = (data) => {
-    var completeBoards = [];
-    const numbers = getChosenNumbers(data);
-    const boards = getBingoBoards(data);
-    for (i = 0; i < numbers.length; i++) {
-        markNumbersAsDrawn(boards, numbers[i]);
-        // check for complete row or column
-        var c = rowOrColumnComplete(boards);
-        completeBoards = updateCompletedStatus(boards);
-        // if we have a complete row/column, calculate the score
-        if (c.complete && !completeBoards.some((el) => el.board == c.board)) {
-            completeBoards.push({
-                board: c.board,
-                score: getWinningScore(boards[c.board], numbers[i]),
-                number: numbers[i],
-            });
-        }
-    }
-    return completeBoards[completeBoards.length - 1].score;
-};
-
-module.exports.getChosenNumbers = getChosenNumbers;
-module.exports.getBingoBoards = getBingoBoards;
-module.exports.markNumbersAsDrawn = markNumbersAsDrawn;
-module.exports.rowOrColumnComplete = rowOrColumnComplete;
-module.exports.getWinningScore = getWinningScore;
 module.exports.playBingo = playBingo;
-module.exports.playBingoWithLastWinningBoard = playBingoWithLastWinningBoard;
+module.exports.getFirstWinningScore = getFirstWinningScore;
+module.exports.getLastWinningScore = getLastWinningScore;
