@@ -24,6 +24,7 @@ const { getMinimumFuelHorizontalPosition, getMinimumFuelHorizontalPosition2 } = 
 const { getScore, getScoreForClosingChars } = require("./adventofcode_10");
 const { getLowPoints, sumOfRisksOfLowPoints } = require("./adventofcode_9");
 const { findAllEasyDigits } = require("./adventofcode_8");
+const { dotsAfterFold } = require("./adventofcode_13");
 
 console.log(`
 ##############################################################
@@ -128,3 +129,13 @@ let data_day10 = parseInput("./data/day_10.txt", "\n", el => el);
 console.log("Syntax error score: ", getScore(data_day10));
 console.log("Score for closing brackets: " + getScoreForClosingChars(data_day10));
 
+
+console.log("\n************* DAY 13: Transparent Origami **************\n");
+let [dots, instructions] = parseInput("./data/day_13.txt", "\n\n", e => e.split("\n"));
+dots = dots.map(pair => pair.split(",").map(Number));
+instructions = instructions.map(i => {
+    let arr = i.split(" ");
+    return arr[arr.length - 1].split("=");
+})
+console.log("Dots after first fold: " + dotsAfterFold(dots, [instructions[0]]));
+console.log("Dots after last fold: " + dotsAfterFold(dots, instructions));
