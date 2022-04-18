@@ -30,6 +30,7 @@ const { findAllEasyDigits } = require("./adventofcode_8");
 const { dotsAfterFold } = require("./adventofcode_13");
 const {
     polymerization,
+    polymerization2,
     mostCommonElement,
     leastCommonElement,
 } = require("./adventofcode_14");
@@ -161,7 +162,7 @@ instructions = instructions.split("\n").map((i) => i.split(" -> "));
 
 let polymer = polymerization(template, instructions, 10);
 
-const occurrences = polymer.split("").reduce(function (acc, curr) {
+let occurrences = polymer.split("").reduce(function (acc, curr) {
     return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
 }, {});
 
@@ -169,3 +170,5 @@ let most = occurrences[mostCommonElement(polymer.split(""))];
 let least = occurrences[leastCommonElement(polymer.split(""))];
 console.log(most, least);
 console.log("Most common minus least common elements: ", most - least);
+
+console.log(polymerization2(template, instructions, 40));

@@ -7,7 +7,6 @@ const dotsAfterFold = (dots, instructions) => {
         else grid = foldLeft(grid, Number(instruction[1]));
     });
     const text = grid.map((array) => array.join(" ")).join("\n");
-    console.log(text);
     return countDots(grid);
 };
 

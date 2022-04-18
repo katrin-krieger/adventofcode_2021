@@ -33,6 +33,49 @@ const leastCommonElement = (polymer) => {
         .pop();
 };
 
+const polymerization2 = (template, instructions, steps) => {
+    //transform instructions
+    let transformations = {};
+    let pairs = {};
+    let elems = {};
+    instructions.forEach((pair) => (transformations[pair[0]] = pair[1]));
+
+    template.split("").forEach((char, idx) => {
+        if (idx < template.split("").length - 1) {
+            pairs[template.substring(idx, idx + 2)]
+                ? (pairs[template.substring(idx, idx + 2)] += 1)
+                : (pairs[template.substring(idx, idx + 2)] = 1);
+        }
+        elems[char] ? (elems[char] += 1) : (elems[char] = 1);
+    });
+
+    for (let i = 0; i < steps; i++) {
+        for (let [comb, count] of Object.entries(pairs)) {
+            new_elem = transformations[comb];
+            elems[new_elem]
+                ? (elems[new_elem] += count)
+                : (elems[new_elem] = 1);
+            pairs[comb] -= count;
+            pairs[comb[0] + new_elem]
+                ? (pairs[comb[0] + new_elem] += count)
+                : (pairs[comb[0] + new_elem] = 1);
+            pairs[new_elem + comb[1]]
+                ? (pairs[new_elem + comb[1]] += count)
+                : (pairs[new_elem + comb[1]] = 1);
+        }
+    }
+    let max = Object.values(elems).reduce(
+        (acc, curr) => Math.max(acc, curr),
+        0
+    );
+    let min = Object.values(elems).reduce(
+        (acc, curr) => Math.min(acc, curr),
+        0
+    );
+    return max - min;
+};
+
 module.exports.polymerization = polymerization;
+module.exports.polymerization2 = polymerization2;
 module.exports.mostCommonElement = mostCommonElement;
 module.exports.leastCommonElement = leastCommonElement;

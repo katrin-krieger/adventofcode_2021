@@ -1,6 +1,7 @@
 const { parseInput } = require("../utils");
 const {
     polymerization,
+    polymerization2,
     mostCommonElement,
     leastCommonElement,
 } = require("../adventofcode_14");
@@ -38,5 +39,9 @@ describe("Extended Polymerization", () => {
     });
     test("Least common element of AAAAB", () => {
         expect(leastCommonElement("AAAB".split(""))).toBe("B");
+    });
+
+    test("Polymerization after 10 steps", () => {
+        expect(polymerization2(template, instructions, 10)).toBe(1588);
     });
 });
